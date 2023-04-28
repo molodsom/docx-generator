@@ -48,9 +48,12 @@ def docx_pdf(file_path: str) -> bool:
         raise HTTPException(status_code=502, detail="Unable to find executable binary file to create PDF.")
     cmd = [LIBREOFFICE_BINARY, "--headless", "--convert-to", "pdf", f"{file_path}.docx", "--outdir", DOCX_OUTCOMES_PATH]
     p = subprocess.Popen(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-    p.wait(timeout=10)
+    try:
+        p.wait(timeout=10)
+        os.remove(f"{file_path}.docx")
+    except subprocess.TimeoutExpired:
+        raise HTTPException(status_code=504, detail="The result was not generated in the allotted time.")
     _, stderr = p.communicate()
-    os.remove(f"{file_path}.docx")
     if stderr:
         raise HTTPException(status_code=503, detail="Error generating file.")
     if not os.path.exists(f"{file_path}.pdf"):
