@@ -1,0 +1,6 @@
+.idea/
+venv/
+result/*.docx
+upload/*.docx
+docx.db
+
