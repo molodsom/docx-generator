@@ -9,7 +9,7 @@ load_dotenv()
 
 DOCX_TEMPLATE_PATH = os.getenv("DOCX_TEMPLATE_PATH", "./upload")
 DOCX_OUTCOMES_PATH = os.getenv("DOCX_OUTCOMES_PATH", "./result")
-LIBREOFFICE_BINARY = os.getenv("LIBREOFFICE_BINARY", "soffice")
+LIBREOFFICE_BINARY = os.getenv("LIBREOFFICE_BINARY", "/usr/bin/soffice")
 SQLALCHEMY_DATABASE_URL = os.getenv("DB_URL", "sqlite:///docx.db")
 
 engine = create_engine(
