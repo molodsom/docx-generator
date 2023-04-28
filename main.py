@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Literal
 
 from fastapi import FastAPI, UploadFile, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -64,7 +64,8 @@ async def template_upload(file: UploadFile, file_name: Optional[str] = None, db:
 
 
 @app.post("/templates/{template_id}/process", response_model=ProcessResponse)
-async def template_process(template_id: int, fields: dict[str, str], db: Session = Depends(get_db)):
+async def template_process(template_id: int, fields: dict[str, str], fmt: Literal["docx", "pdf"] = "docx",
+                           db: Session = Depends(get_db)):
     tpl = db.query(models.Template).get(template_id)
     if not tpl:
         raise HTTPException(status_code=404, detail="Template is not found")
@@ -74,4 +75,4 @@ async def template_process(template_id: int, fields: dict[str, str], db: Session
             err.append(f"Required field {f.variable} is not filled.")
     if err:
         raise HTTPException(status_code=400, detail="\n".join(err))
-    return docx_process(tpl, fields)
+    return docx_process(tpl, fields=fields, fmt=fmt)

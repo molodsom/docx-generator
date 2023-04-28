@@ -1,10 +1,16 @@
+import os
+from dotenv import load_dotenv
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DOCX_TEMPLATE_PATH = "./upload"
-DOCX_OUTCOMES_PATH = "./result"
-SQLALCHEMY_DATABASE_URL = "sqlite:///docx.db"
+load_dotenv()
+
+DOCX_TEMPLATE_PATH = os.getenv("DOCX_TEMPLATE_PATH", "./upload")
+DOCX_OUTCOMES_PATH = os.getenv("DOCX_OUTCOMES_PATH", "./result")
+LIBREOFFICE_BINARY = os.getenv("LIBREOFFICE_BINARY", "soffice")
+SQLALCHEMY_DATABASE_URL = os.getenv("DB_URL", "sqlite:///docx.db")
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
