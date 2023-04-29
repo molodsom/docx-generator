@@ -12,9 +12,11 @@ DOCX_OUTCOMES_PATH = os.getenv("DOCX_OUTCOMES_PATH", "./result")
 LIBREOFFICE_BINARY = os.getenv("LIBREOFFICE_BINARY", "/usr/bin/soffice")
 SQLALCHEMY_DATABASE_URL = os.getenv("DB_URL", "sqlite:///docx.db")
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+connect_args = {}
+if SQLALCHEMY_DATABASE_URL.startswith("sqlite://"):
+    connect_args["check_same_thread"] = False
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
