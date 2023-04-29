@@ -9,15 +9,6 @@ class FieldRequest(BaseModel):
     empty_value: str = None
 
 
-class UploadResponse(BaseModel):
-    class Config:
-        orm_mode = True
-    id: int
-    file_name: str
-    file_size: float
-    fields: list
-
-
 class TemplateResponse(BaseModel):
     class Config:
         orm_mode = True
