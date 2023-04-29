@@ -1,0 +1,9 @@
+{
+    "company_name": "Acme Corporation",
+    "company_phone": "+1 636 555 7878",
+    "company_email": "webmaster@localhost.acme",
+    "company_address": "6838 Zumirez Dr, Malibu, CA 90265, USA",
+    "recipient_name": "Brent Rambo",
+    "recipient_address": "221B Baker Street, London",
+    "today": "April 1, 2023"
+}

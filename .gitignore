@@ -1,7 +1,7 @@
 .idea/
+.pytest_cache
 venv/
 .env
 result/*.docx
 upload/*.docx
-docx.db
-
+*.db
