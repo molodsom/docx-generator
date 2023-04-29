@@ -1,5 +1,6 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/molodsom/docx-generator/docker.yml?label=docker%20image)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/molodsom/docx-generator/tests.yml?label=tests)
+[![Coverage badge](https://img.shields.io/badge/dynamic/json?color=brightgreen&label=coverage&query=%24.message&url=https%3A%2F%2Fraw.githubusercontent.com%2Fmolodsom%2Fdocx-generator%2Fpython-coverage-comment-action-data%2Fendpoint.json)](https://htmlpreview.github.io/?https://github.com/molodsom/docx-generator/blob/python-coverage-comment-action-data/htmlcov/index.html)
 ![GitHub](https://img.shields.io/github/license/molodsom/docx-generator)
 
 # docx-generator
