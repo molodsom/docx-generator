@@ -17,3 +17,8 @@ docker run -d -p80:80 \
    -e DB_URL=sqlite:///docx.db \
    ghcr.io/molodsom/docx-generator:latest
 ```
+
+## Docker Compose
+```shell
+docker-compose up -d
+```
