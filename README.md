@@ -1,3 +1,7 @@
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/molodsom/docx-generator/docker.yml?label=docker%20image)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/molodsom/docx-generator/tests.yml?label=tests)
+![GitHub](https://img.shields.io/github/license/molodsom/docx-generator)
+
 # docx-generator
 
 ## Quick start
