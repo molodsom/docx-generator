@@ -35,7 +35,7 @@ def docx_process(tpl: models.Template, fields: dict[str, str], fmt: str) -> dict
     context = {f.variable: f.empty_value if f.empty_value is not None else "" for f in tpl.fields} | fields
     docx.render(context, autoescape=False)
     file_name = uuid.uuid4()
-    file_path = os.path.join(DOCX_OUTCOMES_PATH, f"{file_name}")
+    file_path = os.path.join(DOCX_OUTCOMES_PATH, str(file_name))
     docx.save(f"{file_path}.docx")
     if fmt == "pdf":
         docx_pdf(file_path)
