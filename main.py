@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Optional, Literal, Union
 
 from fastapi import FastAPI, UploadFile, Depends, HTTPException
@@ -82,5 +83,5 @@ async def template_process(template_id: int, fields: dict[str, str], fmt: Litera
     if download:
         response = FileResponse(os.path.join(DOCX_OUTCOMES_PATH, response["result"]),
                                 media_type='application/octet-stream',
-                                filename=tpl.file_name)
+                                filename=f"{Path(tpl.file_name).stem}.{fmt}")
     return response
