@@ -10,7 +10,7 @@ ENV DOCX_TEMPLATE_PATH /upload
 ENV DOCX_OUTCOMES_PATH /result
 ENV LIBREOFFICE_BINARY /usr/bin/soffice
 
-RUN apk update && apk add --no-cache gcc mariadb-connector-c-dev libreoffice-writer msttcorefonts-installer fontconfig
+RUN apk update && apk add --no-cache musl-dev mariadb-connector-c-dev libreoffice-writer msttcorefonts-installer fontconfig
 RUN update-ms-fonts
 
 RUN pip install --no-cache-dir -r requirements.txt
