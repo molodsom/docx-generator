@@ -1,11 +1,14 @@
-from typing import Optional, Literal
+import os
+from typing import Optional, Literal, Union
 
 from fastapi import FastAPI, UploadFile, Depends, HTTPException
+from fastapi.openapi.models import Response
 from sqlalchemy.orm import Session
+from starlette.responses import FileResponse
 
 import models
 from schemas import ProcessResponse, TemplateResponse, FieldRequest
-from settings import engine, SessionLocal
+from settings import engine, SessionLocal, DOCX_OUTCOMES_PATH
 from utils import docx_check, docx_save, docx_process
 
 models.Base.metadata.create_all(bind=engine)
@@ -63,9 +66,9 @@ async def template_upload(file: UploadFile, file_name: Optional[str] = None, db:
     return tpl
 
 
-@app.post("/templates/{template_id}/process", response_model=ProcessResponse)
+@app.post("/templates/{template_id}/process", response_model=Union[ProcessResponse, Response])
 async def template_process(template_id: int, fields: dict[str, str], fmt: Literal["docx", "pdf"] = "docx",
-                           db: Session = Depends(get_db)):
+                           download: bool = False, db: Session = Depends(get_db)):
     tpl = db.query(models.Template).get(template_id)
     if not tpl:
         raise HTTPException(status_code=404, detail="Template is not found")
@@ -75,4 +78,9 @@ async def template_process(template_id: int, fields: dict[str, str], fmt: Litera
             err.append(f"Required field {f.variable} is not filled.")
     if err:
         raise HTTPException(status_code=400, detail="\n".join(err))
-    return docx_process(tpl, fields=fields, fmt=fmt)
+    response = docx_process(tpl, fields=fields, fmt=fmt)
+    if download:
+        response = FileResponse(os.path.join(DOCX_OUTCOMES_PATH, response["result"]),
+                                media_type='application/octet-stream',
+                                filename=tpl.file_name)
+    return response
