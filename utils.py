@@ -49,7 +49,7 @@ def docx_pdf(file_path: str) -> bool:
     cmd = [LIBREOFFICE_BINARY, "--headless", "--convert-to", "pdf", f"{file_path}.docx", "--outdir", DOCX_OUTCOMES_PATH]
     p = subprocess.Popen(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     try:
-        p.wait(timeout=10)
+        p.wait(timeout=os.getenv("LIBREOFFICE_TIMEOUT", 10))
         os.remove(f"{file_path}.docx")
     except subprocess.TimeoutExpired:
         raise HTTPException(status_code=504, detail="The result was not generated in the allotted time.")
