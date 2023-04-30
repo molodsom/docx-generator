@@ -71,19 +71,16 @@ def test_template_upload_main(client, bad=False) -> httpx.Response:
     with open(fp, "rb") as f:
         r = client.post("/templates/upload", data=data, files={"file": (os.path.basename(fp), f)})
     if bad:
-        assert r.status_code == 502
+        assert r.status_code == 422
     else:
         assert r.status_code == 200
-    assert os.path.exists(os.path.join(os.environ["DOCX_TEMPLATE_PATH"], str(r.json()["id"]) + ".docx"))
+        assert os.path.exists(os.path.join(os.environ["DOCX_TEMPLATE_PATH"], str(r.json()["id"]) + ".docx"))
     return r
 
 
 def test_template_process_main(client, template_id=1, fields: dict[str, str] = None, fmt="docx", download=False):
     params = {"fmt": fmt, "download": download}
     r = client.post(f"/templates/{template_id}/process", json=fields if fields else dict(), params=params)
-    if fmt == "pdf" and not os.path.exists(os.getenv("LIBREOFFICE_BINARY", "/usr/bin/soffice")):
-        assert r.status_code == 502
-    assert r.status_code in [200, 400, 404]
     if r.status_code == 200:
         if download:
             assert r.headers['content-type'] == 'application/octet-stream'
@@ -94,7 +91,9 @@ def test_template_process_main(client, template_id=1, fields: dict[str, str] = N
 
 
 def test_main(client, fields):
-    r = test_template_upload_main(client)
+    test_template_upload_main(client, bad=True)
+
+    r = test_template_upload_main(client, bad=False)
     t = r.json()
 
     assert test_template_main(client, template_id=t["id"]).json() == t
@@ -107,8 +106,14 @@ def test_main(client, fields):
     assert test_templates_main(client).json() != [t]
     assert test_template_fields_main(client, template_id=t["id"]).json() != []
 
-    for fmt in ["docx", "pdf"]:
-        for f in [None, fields]:
-            for download in [False, True]:
-                test_template_process_main(client, t["id"], f, fmt, download)
-                test_template_process_main(client, 999, f, fmt, download)
+    for download in [False, True]:
+        assert test_template_process_main(client, t["id"], fields, "docx", download).status_code == 200
+        assert test_template_process_main(client, t["id"], {"bad": "dict"}, "docx", download).status_code == 400
+        assert test_template_process_main(client, 999, fields, "docx", download).status_code == 404
+
+    r = test_template_process_main(client, t["id"], fields, "pdf", True)
+    has_libreoffice = os.path.exists(os.getenv("LIBREOFFICE_BINARY", "/usr/bin/soffice"))
+    if has_libreoffice:
+        assert r.status_code == 200
+    else:
+        assert r.status_code == 502

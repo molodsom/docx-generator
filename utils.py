@@ -21,7 +21,7 @@ def docx_check(file: UploadFile) -> Union[set[str], list[None]]:
         try:
             return tpl.get_undeclared_template_variables()
         except (BadZipFile, ValueError):
-            HTTPException(status_code=422, detail="The file cannot be processed because it contains no variables.")
+            raise HTTPException(status_code=422, detail="The file cannot be processed because it contains no variables.")
 
 
 def docx_save(file: UploadFile, file_id: int):
