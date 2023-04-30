@@ -4,14 +4,14 @@
 
 | Name                  |    Stmts |     Miss |   Cover |   Missing |
 |---------------------- | -------: | -------: | ------: | --------: |
-| main.py               |       62 |        4 |     94% |75, 79, 81, 84 |
-| models.py             |       23 |        2 |     91% |    17, 30 |
+| main.py               |       62 |        0 |    100% |           |
+| models.py             |       19 |        0 |    100% |           |
 | schemas.py            |       17 |        0 |    100% |           |
 | settings.py           |       16 |        0 |    100% |           |
 | tests/\_\_init\_\_.py |        0 |        0 |    100% |           |
-| tests/test\_main.py   |       74 |        0 |    100% |           |
-| utils.py              |       51 |       19 |     63% |23-24, 41, 46-61 |
-|             **TOTAL** |  **243** |   **25** | **90%** |           |
+| tests/test\_main.py   |       88 |        1 |     99% |       117 |
+| utils.py              |       51 |       13 |     75% |     49-61 |
+|             **TOTAL** |  **253** |   **14** | **94%** |           |
 
 
 ## Setup coverage badge
