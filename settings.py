@@ -12,9 +12,7 @@ DOCX_OUTCOMES_PATH = os.getenv("DOCX_OUTCOMES_PATH", "./result")
 LIBREOFFICE_BINARY = os.getenv("LIBREOFFICE_BINARY", "/usr/bin/soffice")
 SQLALCHEMY_DATABASE_URL = os.getenv("DB_URL", "sqlite:///docx.db")
 
-if SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
-    connect_args = {"check_same_thread": False}
-elif SQLALCHEMY_DATABASE_URL.startswith("mysql"):
+if SQLALCHEMY_DATABASE_URL.startswith("mysql"):
     connect_args = {"pool_pre_ping": True, "pool_recycle": 300}
 else:
     connect_args = {}
