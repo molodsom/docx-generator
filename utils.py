@@ -7,6 +7,7 @@ from zipfile import BadZipFile
 
 from docxtpl import DocxTemplate
 from fastapi import HTTPException, UploadFile
+from jinja2 import TemplateSyntaxError
 
 import models
 from settings import DOCX_TEMPLATE_PATH, DOCX_OUTCOMES_PATH, LIBREOFFICE_BINARY
@@ -20,6 +21,8 @@ def docx_check(file: UploadFile) -> Union[set[str], list[None]]:
         tpl = DocxTemplate(tf)
         try:
             return tpl.get_undeclared_template_variables()
+        except TemplateSyntaxError as e:
+            raise HTTPException(status_code=422, detail=e.message)
         except (BadZipFile, ValueError):
             raise HTTPException(status_code=422, detail="The file cannot be processed because it contains no variables.")
 
