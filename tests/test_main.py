@@ -78,6 +78,16 @@ def test_template_upload_main(client, bad=False) -> httpx.Response:
     return r
 
 
+def test_template_upload_main_bad_syntax(client) -> httpx.Response:
+    data = {"file_name": f"{uuid.uuid4()}.docx"}
+    fp = f"{dir_path}/fixtures/test_letter_bad_syntax.docx"
+    with open(fp, "rb") as f:
+        r = client.post("/templates/upload", data=data, files={"file": (os.path.basename(fp), f)})
+    assert r.status_code == 422
+    assert r.json()["detail"] == "Encountered unknown tag 'unexpected_token'."
+    return r
+
+
 def test_template_process_main(client, template_id=1, fields: dict[str, str] = None, fmt="docx", download=False):
     params = {"fmt": fmt, "download": download}
     r = client.post(f"/templates/{template_id}/process", json=fields if fields else dict(), params=params)
