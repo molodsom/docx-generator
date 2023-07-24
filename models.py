@@ -7,7 +7,7 @@ from settings import Base
 class Template(Base):
     __tablename__ = "docx_template"
     id = Column(Integer, primary_key=True)
-    file_name = Column(String(32))
+    file_name = Column(String(255))
     file_size = Column(Integer)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
