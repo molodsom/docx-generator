@@ -9,9 +9,9 @@
 | schemas.py            |       17 |        0 |    100% |           |
 | settings.py           |       16 |        1 |     94% |        16 |
 | tests/\_\_init\_\_.py |        0 |        0 |    100% |           |
-| tests/test\_main.py   |       88 |        1 |     99% |       119 |
-| utils.py              |       51 |        7 |     86% |47-48, 54-55, 59-61 |
-|             **TOTAL** |  **253** |    **9** | **96%** |           |
+| tests/test\_main.py   |       96 |        1 |     99% |       129 |
+| utils.py              |       54 |        7 |     87% |50-51, 57-58, 62-64 |
+|             **TOTAL** |  **264** |    **9** | **97%** |           |
 
 
 ## Setup coverage badge
