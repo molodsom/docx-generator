@@ -23,7 +23,7 @@ docker run -d -p 80:80 \
    -e DB_URL=sqlite:///docx.db \
    ghcr.io/molodsom/docx-generator:latest
 ```
-It also supports `postgresql://` and `mysql://` schemas.
+It also supports `postgresql://` and `mysql+pymysql://` schemas.
 
 ## Docker Compose
 ```shell
