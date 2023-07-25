@@ -18,7 +18,7 @@ class Field(Base):
     __tablename__ = "docx_field"
     id = Column(Integer, primary_key=True)
     template_id = Column(Integer, ForeignKey('docx_template.id'))
-    name = Column(String(32))
-    variable = Column(String(32))
+    name = Column(String(128))
+    variable = Column(String(128))
     required = Column(Boolean, default=False)
     empty_value = Column(String(255), nullable=True)
